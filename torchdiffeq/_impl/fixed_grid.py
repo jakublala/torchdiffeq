@@ -1,5 +1,6 @@
 from .solvers import FixedGridODESolver
 from .rk_common import rk4_alt_step_func
+from .verlet import velocity_verlet_step_func
 from .misc import Perturb
 
 
@@ -27,3 +28,15 @@ class RK4(FixedGridODESolver):
     def _step_func(self, func, t0, dt, t1, y0):
         f0 = func(t0, y0, perturb=Perturb.NEXT if self.perturb else Perturb.NONE)
         return rk4_alt_step_func(func, t0, dt, t1, y0, f0=f0, perturb=self.perturb), f0
+
+class VelocityVerlet(FixedGridODESolver):
+    order = 4
+
+    def _step_func(self, func, t0, dt, t1, y0):
+        f0 = func(t0, y0, perturb=Perturb.NEXT if self.perturb else Perturb.NONE)
+        dydt0 = f0 
+        f20 = func(t0, dydt0, perturb=Perturb.NEXT if self.perturb else Perturb.NONE)
+        
+        return 
+
+
